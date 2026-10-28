@@ -1,0 +1,12 @@
+const $=id=>document.getElementById(id);
+const fallback='[Bạn chưa viết nội dung phần này]';
+const text=(id,value)=>$(id).textContent=(typeof value==='string'&&value.trim())?value:fallback;
+async function init(){try{const d=await window.api.content();text('recipient',d.recipientName?`Gửi ${d.recipientName}`:'');text('welcomeTitle',d.welcomeTitle);text('letterTitle',d.letterTitle);text('closing',d.closingMessage);(d.letterParagraphs||[]).forEach(p=>{const el=document.createElement('p');el.textContent=p?.trim()||fallback;$('paragraphs').appendChild(el)});(d.reflections||[]).forEach((item,i)=>{const el=document.createElement('article');el.className='card';const n=document.createElement('span');n.className='eyebrow';n.textContent=`0${i+1}`;const h=document.createElement('h3');h.textContent=item.title?.trim()||fallback;const p=document.createElement('p');p.textContent=item.body?.trim()||fallback;el.append(n,h,p);$('cards').appendChild(el)});}catch(e){text('welcomeTitle','Không tải được nội dung. Hãy kiểm tra backend.');}}
+init();
+$('envelope').addEventListener('click',()=>{const paper=$('paper');const opening=paper.hidden;paper.hidden=!opening;$('envelope').classList.toggle('opened',opening);$('envelope').setAttribute('aria-expanded',String(opening));if(opening)paper.scrollIntoView({behavior:document.body.classList.contains('no-motion')?'auto':'smooth',block:'nearest'});});
+$('motion').addEventListener('click',()=>{const off=document.body.classList.toggle('no-motion');$('motion').textContent=off?'Bật chuyển động':'Tắt chuyển động';$('motion').setAttribute('aria-pressed',String(!off));});
+$('read').addEventListener('click',()=>{$('ack').textContent='Cảm ơn vì đã dành thời gian đọc.';});
+$('later').addEventListener('click',()=>{$('replyForm').hidden=true;$('ack').textContent='Bạn có thể đóng trang bất cứ lúc nào.';});
+$('replyBtn').addEventListener('click',()=>{$('replyForm').hidden=false;$('replyText').focus();});
+$('cancel').addEventListener('click',()=>{$('replyForm').hidden=true;});
+$('replyForm').addEventListener('submit',async e=>{e.preventDefault();const msg=$('replyText').value.trim();if(!msg){$('formStatus').textContent='Hãy nhập lời nhắn trước khi gửi.';return;}const btn=$('replyForm').querySelector('[type=submit]');btn.disabled=true;$('formStatus').textContent='Đang gửi...';try{await window.api.reply(msg);$('formStatus').textContent='Đã gửi lời nhắn. Cảm ơn bạn.';$('replyText').value='';}catch(err){$('formStatus').textContent=err.message;}finally{btn.disabled=false;}});

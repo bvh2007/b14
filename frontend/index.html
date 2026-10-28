@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f7dce8" />
+    <title>Những điều muốn nói</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="petals" aria-hidden="true">
+      <i>✿</i><i>♡</i><i>✧</i><i>✿</i><i>♡</i><i>✧</i>
+    </div>
+    <header class="top">
+      <span class="brand">✿ a little letter</span
+      ><button id="motion" class="small" aria-pressed="true">
+        Tắt chuyển động
+      </button>
+    </header>
+    <main>
+      <section class="hero panel" id="welcome">
+        <div class="sparkle">✦ &nbsp; ♡ &nbsp; ✦</div>
+        <p class="eyebrow" id="recipient"></p>
+        <h1 id="welcomeTitle"></h1>
+        <p class="sub">Một góc nhỏ để đọc khi bạn muốn.</p>
+        <a class="btn" href="#letter">Mở lá thư <span>↗</span></a>
+      </section>
+      <section class="section" id="letter">
+        <p class="eyebrow">01 · Lá thư</p>
+        <h2 id="letterTitle"></h2>
+        <button
+          id="envelope"
+          class="envelope"
+          aria-expanded="false"
+          aria-controls="paper"
+        >
+          <span class="flap"></span><span class="seal">♡</span
+          ><span class="envelope-hint">Chạm để mở thư</span>
+        </button>
+        <article id="paper" class="paper" hidden>
+          <div id="paragraphs"></div>
+        </article>
+      </section>
+      <section class="section" id="reflection">
+        <p class="eyebrow">02 · Những điều muốn chia sẻ</p>
+        <h2>Những điều mình muốn nói rõ hơn</h2>
+        <div class="cards" id="cards"></div>
+      </section>
+      <section class="section end panel" id="end">
+        <p class="eyebrow">03 · Lời kết</p>
+        <h2 id="closing"></h2>
+        <p class="sub">
+          Bạn không cần phải trả lời ngay, hoặc trả lời nếu không muốn.
+        </p>
+        <div class="actions">
+          <button class="btn" id="read">Mình đã đọc</button
+          ><button class="btn secondary" id="replyBtn">
+            Mình muốn nhắn lại</button
+          ><button class="small" id="later">Mình chưa muốn trả lời</button>
+        </div>
+        <p id="ack" class="feedback" role="status"></p>
+        <form id="replyForm" hidden>
+          <label for="replyText">Lời nhắn của bạn (không bắt buộc)</label
+          ><textarea
+            id="replyText"
+            maxlength="1200"
+            rows="5"
+            placeholder="Viết điều bạn muốn nói..."
+          ></textarea>
+          <div class="actions">
+            <button class="btn" type="submit">Gửi lời nhắn</button
+            ><button type="button" class="small" id="cancel">Đóng</button>
+          </div>
+          <p id="formStatus" role="status"></p>
+        </form>
+      </section>
+    </main>
+    <footer>
+      Made with care · Không theo dõi lượt xem · Không yêu cầu tha thứ
+    </footer>
+    <script src="/js/api.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

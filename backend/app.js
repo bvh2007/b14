@@ -1,0 +1,17 @@
+const express = require('express');
+const path = require('path');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const content = require('./config/content');
+const replyRoutes = require('./routes/replyRoutes');
+const app = express();
+app.disable('x-powered-by');
+app.use(helmet({ contentSecurityPolicy: false }));
+app.use(express.json({ limit: '8kb' }));
+app.use('/api/replies', rateLimit({windowMs: 15*60*1000, limit: 5, standardHeaders:'draft-7', legacyHeaders:false}), replyRoutes);
+app.get('/api/health', (_req,res)=>res.json({status:'ok'}));
+app.get('/api/message', (_req,res)=>res.json(content));
+app.use(express.static(path.join(__dirname, '../frontend')));
+app.get('/', (_req,res)=>res.sendFile(path.join(__dirname,'../frontend/index.html')));
+app.use((err,_req,res,_next)=>{ console.error(err.message); res.status(500).json({error:'Đã xảy ra lỗi máy chủ.'}); });
+module.exports = app;
